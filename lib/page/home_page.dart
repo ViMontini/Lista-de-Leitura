@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -14,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _dateTime = DateTime.now();
     // Atualiza a data e hora a cada segundo
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _dateTime = DateTime.now();
       });
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.pink, Colors.purple],
               begin: Alignment.topLeft,
@@ -40,11 +42,11 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text(
                 'Data: ${_dateTime.day}/${_dateTime.month}/${_dateTime.year}',
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
               Text(
                 'Hora: ${_dateTime.hour}:${_dateTime.minute}:${_dateTime.second}',
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
             ],
           ),
@@ -58,14 +60,14 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.pushNamed(context, '/listaLivros');
               },
-              child: Text('Ir para a lista de Livros'),
+              child: const Text('Ir para a lista de Livros'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/pagina2');
+                Navigator.pushNamed(context, '/listaLeitura');
               },
-              child: Text('Ir para Página 2'),
+              child: const Text('Ir para a lista de leitura'),
             ),
           ],
         ),

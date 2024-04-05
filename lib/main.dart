@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:lista_leitura/page/home_page.dart';
 import 'package:lista_leitura/page/lista_livros.dart';
+import 'package:lista_leitura/page/lista_leitura.dart';
+import 'package:lista_leitura/controller/utils.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Navegação entre Páginas',
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
-        '/listaLivros': (context) => ListaLivrosPage(),
-        '/listaLeitura': (context) => ListaLeituraPage(),
-
+        '/': (context) => const HomePage(),
+        '/listaLivros': (context) => const ListaLivrosPage(
+          adicionarLivroListaLeitura: adicionarLivroListaLeitura,
+        ),
+        '/listaLeitura': (context) => const ListaLeituraPage(),
       },
     );
   }
 }
-

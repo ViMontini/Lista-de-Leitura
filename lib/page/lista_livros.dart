@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_books_api/google_books_api.dart';
+import 'package:lista_leitura/controller/utils.dart'; // Importe o arquivo utils.dart aqui
 
 class ListaLivrosPage extends StatefulWidget {
+  final void Function(BuildContext, Book) adicionarLivroListaLeitura;
+
+  const ListaLivrosPage({super.key, required this.adicionarLivroListaLeitura});
+
   @override
   _ListaLivrosPageState createState() => _ListaLivrosPageState();
 }
@@ -16,7 +21,7 @@ class _ListaLivrosPageState extends State<ListaLivrosPage> {
   }
 
   Future<List<Book>> fetchBooks() async {
-    final List<Book> books = await GoogleBooksApi().searchBooks(
+    final List<Book> books = await const GoogleBooksApi().searchBooks(
       'book',
       maxResults: 20,
       printType: PrintType.books,
@@ -30,21 +35,22 @@ class _ListaLivrosPageState extends State<ListaLivrosPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Adicionar à lista de leitura'),
-          content: Text('Deseja adicionar o livro "${book.volumeInfo!.title}" à sua lista de leitura?'),
+          title: const Text('Adicionar à lista de leitura'),
+          content: Text('Deseja adicionar o livro "${book.volumeInfo.title}" à sua lista de leitura?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
             TextButton(
               onPressed: () {
-                // Adicione a lógica para adicionar o livro à lista de leitura aqui
+                // Usando a função adicionarLivroListaLeitura passando o contexto
+                adicionarLivroListaLeitura(context, book);
                 Navigator.of(context).pop();
               },
-              child: Text('Adicionar'),
+              child: const Text('Adicionar'),
             ),
           ],
         );
@@ -56,13 +62,13 @@ class _ListaLivrosPageState extends State<ListaLivrosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Lista de Livros',
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.pink, Colors.purple],
               begin: Alignment.topLeft,
@@ -75,9 +81,9 @@ class _ListaLivrosPageState extends State<ListaLivrosPage> {
         future: _books,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Erro ao carregar os livros'));
+            return const Center(child: Text('Erro ao carregar os livros'));
           } else {
             List<Book> books = snapshot.data!;
             return ListView.builder(
@@ -95,11 +101,11 @@ class _ListaLivrosPageState extends State<ListaLivrosPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Livro: ${book.volumeInfo!.title}'),
-                          SizedBox(height: 5),
-                          Text('Autor: ${book.volumeInfo!.authors?.join(", ")}'),
-                          SizedBox(height: 5),
-                          Text('Gênero: ${book.volumeInfo!.categories?.join(", ")}'),
+                          Text('Livro: ${book.volumeInfo.title}'),
+                          const SizedBox(height: 5),
+                          Text('Autor: ${book.volumeInfo.authors.join(", ")}'),
+                          const SizedBox(height: 5),
+                          Text('Gênero: ${book.volumeInfo.categories.join(", ")}'),
                         ],
                       ),
                     ),
