@@ -1,22 +1,24 @@
+import 'dart:convert';
+
 class Livro {
-  final int id;
+  final String id;
   final String titulo;
-  final String autor;
-  final String genero;
+  final String autores;
+  final String categorias;
 
   Livro({
     required this.id,
     required this.titulo,
-    required this.autor,
-    required this.genero,
+    required this.autores,
+    required this.categorias,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'titulo': titulo,
-      'autor': autor,
-      'genero': genero,
+      'autores': autores,
+      'categorias': categorias,
     };
   }
 }

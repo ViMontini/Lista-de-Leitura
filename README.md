@@ -1,16 +1,11 @@
-# lista_leitura
+# lista_livro_leitura
 
-A new Flutter project.
+A new Flutter project about a reading list.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Nome dos Integrantes:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Leonardo Rodrigues Dezoti Ferraz
+- Lucas Augusto Borges Rogatto
+- Vitor Gabriel Montini Melo

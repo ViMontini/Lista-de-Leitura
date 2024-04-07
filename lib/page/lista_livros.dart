@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_books_api/google_books_api.dart';
-import 'package:lista_leitura/controller/utils.dart'; // Importe o arquivo utils.dart aqui
+import 'package:lista_leitura/controller/google_books.dart'; // Importe o arquivo google_books.dart aqui
 
 class ListaLivrosPage extends StatefulWidget {
   final void Function(BuildContext, Book) adicionarLivroListaLeitura;
 
-  const ListaLivrosPage({super.key, required this.adicionarLivroListaLeitura});
+  const ListaLivrosPage({Key? key, required this.adicionarLivroListaLeitura}) : super(key: key);
 
   @override
   _ListaLivrosPageState createState() => _ListaLivrosPageState();
@@ -17,17 +17,7 @@ class _ListaLivrosPageState extends State<ListaLivrosPage> {
   @override
   void initState() {
     super.initState();
-    _books = fetchBooks();
-  }
-
-  Future<List<Book>> fetchBooks() async {
-    final List<Book> books = await const GoogleBooksApi().searchBooks(
-      'book',
-      maxResults: 20,
-      printType: PrintType.books,
-      orderBy: OrderBy.relevance,
-    );
-    return books;
+    _books = fetchBooks(); // Chama a função fetchBooks do arquivo google_books.dart
   }
 
   void _showAddToListDialog(Book book) {
@@ -47,7 +37,7 @@ class _ListaLivrosPageState extends State<ListaLivrosPage> {
             TextButton(
               onPressed: () {
                 // Usando a função adicionarLivroListaLeitura passando o contexto
-                adicionarLivroListaLeitura(context, book);
+                widget.adicionarLivroListaLeitura(context, book);
                 Navigator.of(context).pop();
               },
               child: const Text('Adicionar'),

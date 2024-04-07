@@ -56,18 +56,28 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/listaLivros');
               },
-              child: const Text('Ir para a lista de Livros'),
+              icon: Icon(Icons.book),
+              label: const Text('Ir para a lista de Livros'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 35),
+                textStyle: TextStyle(fontSize: 20),
+              ),
             ),
-            const SizedBox(height: 10),
-            ElevatedButton(
+            const SizedBox(height: 25),
+            ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/listaLeitura');
               },
-              child: const Text('Ir para a lista de leitura'),
+              icon: Icon(Icons.library_books),
+              label: const Text('Ir para a lista de Leitura'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 35),
+                textStyle: TextStyle(fontSize: 20),
+              ),
             ),
           ],
         ),

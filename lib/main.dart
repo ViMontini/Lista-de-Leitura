@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Navegação entre Páginas',
       initialRoute: '/',
       routes: {
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
         '/listaLivros': (context) => const ListaLivrosPage(
           adicionarLivroListaLeitura: adicionarLivroListaLeitura,
         ),
-        '/listaLeitura': (context) => const ListaLeituraPage(),
+        '/listaLeitura': (context) => const ListaLeituraPage(
+            removerLivroListaLeitura: removerLivroListaLeitura),
       },
     );
   }

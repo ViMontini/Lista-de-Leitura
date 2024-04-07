@@ -1,71 +1,81 @@
-// database_helper.dart
+import 'package:google_books_api/google_books_api.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:lista_leitura/model/livro_model.dart';
 
 class DatabaseHelper {
-  static const _databaseName = "lista_leitura.db";
-  static const _databaseVersion = 1;
-
-  static const table = 'livros';
-
-  static const columnId = 'id';
-  static const columnTitulo = 'titulo';
-  static const columnAutor = 'autor';
-  static const columnGenero = 'genero';
-
-  DatabaseHelper._privateConstructor();
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
-
   static Database? _database;
-  Future<Database?> get database async {
-    if (_database != null) return _database;
+
+  static const String listaLeitura = 'books';
+  static const String id = 'id';
+  static const String titulo = 'titulo';
+  static const String autores = 'autores';
+  static const String categorias = 'categorias';
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
     _database = await _initDatabase();
-    return _database;
+    return _database!;
   }
 
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), _databaseName);
-    return await openDatabase(
-      path,
-      version: _databaseVersion,
-      onCreate: _onCreate,
-    );
+    try {
+      final String path = join(await getDatabasesPath(), 'books_database.db');
+      final database = await openDatabase(path, version: 1, onCreate: _createDatabase);
+      print("Banco de dados carregado com sucesso em: $path");
+      return database;
+    } catch (e) {
+      print("Erro ao carregar o banco de dados: $e");
+      rethrow; // Reenvia a exceção para tratar em um nível superior, se necessário
+    }
   }
 
-  Future _onCreate(Database db, int version) async {
+  Future<void> _createDatabase(Database db, int version) async {
+    print("Criando o banco de dados...");
     await db.execute('''
-          CREATE TABLE $table (
-            $columnId INTEGER PRIMARY KEY,
-            $columnTitulo TEXT NOT NULL,
-            $columnAutor TEXT NOT NULL,
-            $columnGenero TEXT NOT NULL
-          )
-          ''');
+    CREATE TABLE $listaLeitura (
+      $id TEXT PRIMARY KEY,
+      $titulo TEXT,
+      $autores TEXT,
+      $categorias TEXT
+    )
+  ''');
+    print("Banco de dados criado com sucesso!");
   }
 
   Future<int> insertLivro(Livro livro) async {
-    Database? db = await instance.database;
-    if (db == null) {
-      // Tratamento para o caso de o banco de dados não estar inicializado
-      throw Exception('Não foi possível obter o banco de dados.');
-    }
-    return await db.insert(table, livro.toMap());
+    final Database db = await database;
+    return db.insert(listaLeitura, livro.toMap());
+  }
+
+  Future<void> removerLivro(String id) async {
+    final db = await database;
+    await db.delete(
+      'books', // Nome da tabela
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<bool> livroExiste(String id) async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> result = await db.query(
+      listaLeitura,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return result.isNotEmpty;
   }
 
   Future<List<Livro>> getLivros() async {
-    Database? db = await instance.database;
-    if (db == null) {
-      // Tratamento para o caso de o banco de dados não estar inicializado
-      throw Exception('Não foi possível obter o banco de dados.');
-    }
-    List<Map<String, dynamic>> maps = await db.query(table);
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(listaLeitura);
     return List.generate(maps.length, (i) {
       return Livro(
         id: maps[i]['id'],
         titulo: maps[i]['titulo'],
-        autor: maps[i]['autor'],
-        genero: maps[i]['genero'],
+        autores: maps[i]['autores'],
+        categorias: maps[i]['categorias'],
       );
     });
   }

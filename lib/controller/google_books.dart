@@ -1,6 +1,6 @@
 import 'package:google_books_api/google_books_api.dart';
 
-Future<void> fetchBooks() async {
+Future<List<Book>> fetchBooks() async {
   final List<Book> books = await const GoogleBooksApi().searchBooks(
     'book',
     maxResults: 20,
@@ -8,6 +8,5 @@ Future<void> fetchBooks() async {
     orderBy: OrderBy.relevance,
   );
 
-  // Faça algo com os livros obtidos
-  print(books);
+  return books;
 }

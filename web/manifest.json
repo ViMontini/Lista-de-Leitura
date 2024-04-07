@@ -1,6 +1,6 @@
 {
-    "name": "lista_leitura",
-    "short_name": "lista_leitura",
+    "name": "lista_livro_leitura",
+    "short_name": "lista_livro_leitura",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
