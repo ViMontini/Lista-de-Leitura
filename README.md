@@ -1,6 +1,6 @@
 # lista_livro_leitura
 
-A new Flutter project about a reading list.
+Projeto em Flutter sobre uma lista de livros baseada na API Google Books, assim podendo adicionar os livros a uma lista de leitura, e removê-los quando lido.
 
 ## Getting Started
 
